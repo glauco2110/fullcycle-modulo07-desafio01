@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+import {Sequelize} from "sequelize-typescript";
 import ProductModel from "../db/sequelize/model/product.model";
 import Product from "../../domain/entity/product";
 import ProductRepository from "./product.repository";
@@ -11,7 +11,7 @@ describe("Product repository test", () => {
             dialect: "sqlite",
             storage: ":memory:",
             logging: false,
-            sync: { force: true },
+            sync: {force: true},
         });
 
         sequelize.addModels([ProductModel]);
@@ -28,22 +28,22 @@ describe("Product repository test", () => {
         const product = new Product("1", "Product 1", 100);
         await productRepository.create(product);
 
-        const productModel = await ProductModel.findOne({ where: { id: "1"}});
-        expect(productModel.toJSON()).toStrictEqual({ 
+        const productModel = await ProductModel.findOne({where: {id: "1"}});
+        expect(productModel.toJSON()).toStrictEqual({
             id: "1",
             name: "Product 1",
             price: 100
         });
     });
 
-    it("should update a product", async ()=> {
+    it("should update a product", async () => {
         const productRepository = new ProductRepository();
 
         const product = new Product("1", "Product 1", 100);
         await productRepository.create(product);
 
-        const productModel = await ProductModel.findOne({ where: { id: "1"}});
-        expect(productModel.toJSON()).toStrictEqual({ 
+        const productModel = await ProductModel.findOne({where: {id: "1"}});
+        expect(productModel.toJSON()).toStrictEqual({
             id: "1",
             name: "Product 1",
             price: 100
@@ -54,25 +54,25 @@ describe("Product repository test", () => {
 
         await productRepository.update(product);
 
-        const productModel2 = await ProductModel.findOne({ where: { id: "1"}});
+        const productModel2 = await ProductModel.findOne({where: {id: "1"}});
 
-        expect(productModel2.toJSON()).toStrictEqual({ 
+        expect(productModel2.toJSON()).toStrictEqual({
             id: "1",
             name: "Product 2",
             price: 200
         });
     });
 
-    it("should find a product", async () =>{
+    it("should find a product", async () => {
         const productRepository = new ProductRepository();
 
         const product = new Product("1", "Product 1", 100);
         await productRepository.create(product);
 
-        const productModel = await ProductModel.findOne({ where: { id: "1"}});
+        const productModel = await ProductModel.findOne({where: {id: "1"}});
         const foundProduct = productRepository.find("1");
 
-        expect(productModel.toJSON()).toStrictEqual({ 
+        expect(productModel.toJSON()).toStrictEqual({
             id: (await foundProduct).id,
             name: (await foundProduct).name,
             price: (await foundProduct).price,
@@ -84,11 +84,11 @@ describe("Product repository test", () => {
         const product = new Product("1", "Product 1", 100);
         await productRepository.create(product);
 
-        const product2 = new Product("2", "Product 2",200);
+        const product2 = new Product("2", "Product 2", 200);
         await productRepository.create(product2);
 
         const fountProducts = await productRepository.findAll();
-        const products = [product,product2];
+        const products = [product, product2];
 
         expect(products).toEqual(fountProducts);
     });
