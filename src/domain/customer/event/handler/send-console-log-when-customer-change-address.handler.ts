@@ -1,0 +1,8 @@
+import CustomerChangeAddressEvent from "../customer-change-address.event";
+import EventHandlerInterface from "../../../@shared/event/event-handler.interface";
+
+export default class SendConsoleLogWhenCustomerChangeAddressHandler implements EventHandlerInterface {
+    handle(event: CustomerChangeAddressEvent): void {
+        console.log(`Customer ${event.eventData.id}, ${event.eventData.name} changed address to ${event.eventData.Address.street} ${event.eventData.Address.number}, ${event.eventData.Address.zip} ${event.eventData.Address.city}`);
+    }
+}
