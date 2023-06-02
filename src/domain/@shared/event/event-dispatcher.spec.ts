@@ -1,6 +1,7 @@
 import EventDispatcher from "./event-dispatcher";
 import SendEmailWhenProductIsCreatedHandler from "../../product/event/handler/send-email-when-product-is-created.handler";
 import ProductCreatedEvent from "../../product/event/product-created.event";
+import Product from "../../product/entity/product";
 
 describe("Domain events tests", () => {
 
@@ -47,13 +48,8 @@ describe("Domain events tests", () => {
 
         eventDispatcher.register("ProductCreatedEvent", eventHandler);
         expect(eventDispatcher.getEventHandlers["ProductCreatedEvent"][0]).toMatchObject(eventHandler);
-
-        const productCreatedEvent = new ProductCreatedEvent({
-            name: "Product 1",
-            description: 'Product 1 description',
-            price: 100,
-            createdAt: new Date(),
-        });
+        const product = new Product('1', 'Product 1', 100);
+        const productCreatedEvent = new ProductCreatedEvent(product);
 
         eventDispatcher.notify(productCreatedEvent);
         expect(spyEventHandler).toHaveBeenCalled();
